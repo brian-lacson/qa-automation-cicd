@@ -1,21 +1,39 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 import time
 
-driver = webdriver.Chrome()
+def test_valid_login():
 
-driver.get("https://practicetestautomation.com/practice-test-login/")
+    # Launch Chrome
+    driver = webdriver.Chrome()
 
-driver.find_element(By.ID, "username").send_keys("student")
-driver.find_element(By.ID, "password").send_keys("Password123")
+    # Maximize browser
+    driver.maximize_window()
 
-driver.find_element(By.ID, "submit").click()
+    # Open login page
+    driver.get("https://practicetestautomation.com/practice-test-login/")
 
-time.sleep(3)
+    # Wait for page to load
+    time.sleep(2)
 
-if "Logged In Successfully" in driver.page_source:
-   print("TEST PASSED")
-else:
-   print("TEST FAILED")
+    # Enter username
+    username = driver.find_element(By.ID, "username")
+    username.send_keys("testuser")
 
-driver.quit()
+    # Enter password
+    password = driver.find_element(By.ID, "password")
+    password.send_keys("Password123")
+
+    # Click Login button
+    login_button = driver.find_element(By.ID, "loginButton")
+    login_button.click()
+
+    # Wait for login
+    time.sleep(3)
+
+    # Verify successful login
+    assert "Dashboard" in driver.title
+
+    # Close browser
+    driver.quit()
